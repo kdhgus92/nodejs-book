@@ -3,6 +3,7 @@ const fs = require("fs").promises;
 
 const users = {}; // 데이터 저장용
 const posts = {};
+const comments = {};
 
 http
   .createServer(async (req, res) => {
@@ -17,13 +18,16 @@ http
           const data = await fs.readFile("./about.html");
           res.writeHead(200, { "Conent-Type": "text/html; charset=utf-8" });
           return res.end(data);
-        } else if (req.url === "/posts") {
-          const data = await fs.readFile("./posts.html");
+        } else if (req.url === "/postspage") {
+          const data = await fs.readFile("./postspage.html");
           res.writeHead(200, { "Conent-Type": "text/html; charset=utf-8" });
           return res.end(data);
         } else if (req.url === "/users") {
           res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
           return res.end(JSON.stringify(users));
+        } else if (req.url === "/posts") {
+          res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+          return res.end(JSON.stringify(posts));
         }
         // 주소가 /도 /about도 /users도 아니면
         try {
@@ -53,11 +57,14 @@ http
           req.on("data", (data) => {
             body += data;
           });
-
           return req.on("end", () => {
-            console.log("POST posts:", body);
-            const { title } = JSON.parse(body);
-          })
+            console.log("POST post:", body);
+            const post = JSON.parse(body);
+            const id = Date.now();
+            posts[id] = post;
+            res.writeHead(201);
+            res.end("posts post success!");
+          });
         }
       } else if (req.method === "PUT") {
         if (req.url.startsWith("/user/")) {
@@ -71,12 +78,28 @@ http
             users[key] = JSON.parse(body).name;
             return res.end(JSON.stringify(users));
           });
+        } else if (req.url.startsWith("/post/")) {
+          const key = req.url.split("/")[2];
+          let body = "";
+          req.on("data", (data) => {
+            body += data;
+          });
+          return req.on("end", () => {
+            console.log("PUT posts(Body):", body);
+            posts[key].title = JSON.parse(body).title;
+            posts[key].content = JSON.parse(body).content;
+            return res.end(JSON.stringify(posts));
+          });
         }
       } else if (req.method === "DELETE") {
         if (req.url.startsWith("/user/")) {
           const key = req.url.split("/")[2];
           delete users[key];
           return res.end(JSON.stringify(users));
+        } else if (req.url.startsWith("/post/")) {
+          const key = req.url.split("/")[2];
+          delete posts[key];
+          return res.end(JSON.stringify(posts));
         }
       }
       res.writeHead(404);
