@@ -3,7 +3,8 @@ const fs = require("fs").promises;
 
 const users = {}; // 데이터 저장용
 const posts = {};
-const comments = {};
+
+// 댓글은 post 내부에 comments라는 배열로 저장
 
 http
   .createServer(async (req, res) => {
@@ -28,6 +29,20 @@ http
         } else if (req.url === "/posts") {
           res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
           return res.end(JSON.stringify(posts));
+        } else if (req.url.startsWith("/postDetail/")) {
+          res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+          if (req.url.split("/")[2] === "postDetail.js") {
+            const data = await fs.readFile("./postDetail.js");
+            return res.end(data);
+          }
+          const data = await fs.readFile("./postDetail.html");
+          return res.end(data);
+        } else if (req.url.startsWith("/getThePost/")) {
+          const key = req.url.split("/")[2];
+          const post = posts[key];
+          res.writeHead(200, { "Conent-Type": "text/html; charset=utf-8" });
+          console.log(post);
+          return res.end(JSON.stringify(post));
         }
         // 주소가 /도 /about도 /users도 아니면
         try {
@@ -64,6 +79,23 @@ http
             posts[id] = post;
             res.writeHead(201);
             res.end("posts post success!");
+          });
+        } else if (req.url.startsWith("/comment/")) {
+          const key = req.url.split("/")[2];
+          let body = "";
+          req.on("data", (data) => {
+            body += data;
+          });
+          return req.on("end", () => {
+            console.log("POST comment(Body):", body);
+            const comment = JSON.parse(body);
+            if (posts[key].comments) {
+              posts[key].comments.push(comment);
+            } else {
+              posts[key].comments = [comment];
+            }
+            res.writeHead(201);
+            return res.end("comment success!");
           });
         }
       } else if (req.method === "PUT") {

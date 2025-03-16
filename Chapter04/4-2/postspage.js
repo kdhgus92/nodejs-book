@@ -1,16 +1,18 @@
 async function getPosts() {
-  // 로딩 시 사용자 정보를 가져오는 함수
   try {
     const res = await axios.get("/posts");
     console.log(res);
     const posts = res.data;
     const list = document.getElementById("list");
     list.innerHTML = "";
-    // 사용자마다 반복적으로 화면 표시 및 이벤트 연결
     Object.keys(posts).map(function (key) {
       const postDiv = document.createElement("div");
+      const titleDiv = document.createElement("div");
+      const titleLink = document.createElement("a");
+      titleLink.textContent = posts[key].title;
+      titleLink.href = `/postDetail/${key}`;
       const span = document.createElement("span");
-      span.textContent = posts[key].title;
+      span.textContent = posts[key].content;
       const edit = document.createElement("button");
       edit.textContent = "수정";
       edit.addEventListener("click", async () => {
@@ -25,7 +27,6 @@ async function getPosts() {
         }
         try {
           await axios.put("/post/" + key, { title, content });
-          console.log("ggggg");
           getPosts();
         } catch (err) {
           console.error(err);
@@ -37,11 +38,13 @@ async function getPosts() {
         // 삭제 버튼 클릭
         try {
           await axios.delete("/post/" + key);
-          getUser();
+          getPosts();
         } catch (err) {
           console.error(err);
         }
       });
+      titleDiv.appendChild(titleLink);
+      postDiv.appendChild(titleDiv);
       postDiv.appendChild(span);
       postDiv.appendChild(edit);
       postDiv.appendChild(remove);
