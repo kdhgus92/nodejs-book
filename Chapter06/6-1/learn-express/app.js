@@ -6,7 +6,11 @@ const dotenv = require("dotenv");
 const path = require("path");
 
 dotenv.config();
+const indexRouter = require("./routes");
+const userRouter = require("./routes/user");
+
 const app = express();
+
 app.set("port", process.env.PORT || 3000);
 
 app.use(morgan("dev"));
@@ -27,6 +31,13 @@ app.use(
     name: "session-cookie",
   })
 );
+
+app.use("/", indexRouter);
+app.use("/user", userRouter);
+
+// app.use((req, res, next) => {
+//   res.status(404).send("Not Found");
+// });
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.raw());
@@ -104,16 +115,19 @@ app.get("/category/Javascript", (req, res) => {
 });
 
 app.get("/category/:name", (req, res) => {
+  console.dir(req.query, { colors: true, depth: 2 });
   res.send(`hello ${req.params.name} wildcard`);
 });
 
-app.get("/about", (req, res) => {
-  res.send("hello express");
+app.get("/about", (req, res, next) => {
+  res.send("hello about");
+  next();
 });
 
-// app.get("*", (req, res) => {
-//   res.send("Hello everybody");
-// });
+app.get("*", (req, res) => {
+  // res.send("Hello everybody");
+  console.log("this is * wildcard");
+});
 
 app.use((err, req, res, next) => {
   console.error(err);
