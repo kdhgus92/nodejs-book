@@ -1,3 +1,4 @@
 *.txt
-*txt.gz
+*.txt.gz
 node_modules/
+.env
