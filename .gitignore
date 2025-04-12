@@ -2,3 +2,4 @@
 *.txt.gz
 node_modules/
 .env
+uploads/
