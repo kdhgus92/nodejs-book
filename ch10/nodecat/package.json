@@ -1,7 +1,7 @@
 {
-  "name": "nodebird-api",
+  "name": "nodecat",
   "version": "0.0.1",
-  "description": "NodeBird API 서버",
+  "description": "노드버드 2차 서비스",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app"
@@ -9,20 +9,13 @@
   "author": "ohhyeun",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "axios": "^0.27.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.5.0",
     "express": "^4.17.1",
     "express-session": "^1.18.1",
-    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "mysql2": "^3.14.0",
-    "nunjucks": "^3.2.4",
-    "passport": "^0.7.0",
-    "passport-kakao": "^1.0.1",
-    "passport-local": "^1.0.0",
-    "sequelize": "^6.37.7",
-    "uuid": "^8.3.2"
+    "nunjucks": "^3.2.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
