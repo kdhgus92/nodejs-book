@@ -1,0 +1,22 @@
+{
+  "name": "gif-chat",
+  "version": "0.0.1",
+  "description": "GIF 웹소켓 채팅방",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "author": "ohhyeun",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "morgan": "^1.10.0",
+    "nunjucks": "^3.2.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
