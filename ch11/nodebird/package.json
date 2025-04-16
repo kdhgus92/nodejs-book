@@ -27,6 +27,7 @@
     "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
+    "artillery": "^1.7.9",
     "jest": "^28.1.0",
     "nodemon": "^3.1.9",
     "supertest": "^6.2.3"
