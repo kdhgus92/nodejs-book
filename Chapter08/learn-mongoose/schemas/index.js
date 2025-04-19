@@ -6,7 +6,7 @@ const connect = () => {
   }
 
   mongoose.connect(
-    "mongodb://root:rnjsdhgus92!@localhost:27017/?authSource=admin",
+    `mongodb://root:${process.env.MONGO_PASSWORD}@localhost:27017/?authSource=admin`,
     {
       dbName: "nodejs",
       useNewUrlParser: true,
