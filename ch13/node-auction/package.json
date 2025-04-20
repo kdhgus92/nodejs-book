@@ -1,0 +1,19 @@
+{
+  "name": "node-auction",
+  "version": "0.0.1",
+  "description": "노드 경매 시스템",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "author": "ohhyeun",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "mysql2": "^3.14.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.2"
+  }
+}
