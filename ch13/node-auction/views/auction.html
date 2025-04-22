@@ -6,13 +6,13 @@
 <div>등록자: {{good.Owner.nick}}</div>
 <div>시작가: {{good.price}}원</div>
 <strong id="time" data-start="{{good.createdAt}}"></strong>
-<img id="good-img" src="/img{{good.img}}" />
+<img id="good-img" src="/img/{{good.img}}" />
 {% endblock %}
 
 <!-- content -->
 {% block content %}
-<div class="timelin">
-  <div class="bid">
+<div class="timeline">
+  <div id="bid">
     {% for bid in auction %}
     <div>
       <span>{{bid.User.nick}}님: </span>
@@ -42,7 +42,7 @@
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/event-source-polyfill/src/eventsource.min.js"></script>
-<script src="/socket.io/sockt.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
   document.querySelector("#bid-form").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -96,7 +96,7 @@
     strong.textContent = data.bid + "원에 입찰하셨습니다.";
 
     div.appendChild(span);
-    div.appnedChild(strong);
+    div.appendChild(strong);
 
     if (data.msg) {
       span = document.createElement("span");
